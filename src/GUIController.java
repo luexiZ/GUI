@@ -7,21 +7,25 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class GUIController implements ActionListener implements ItemListner
+public class GUIController implements ActionListener, ItemListener
 {
-    private JTextArea weatherInfo;
-    private JTextField weatherEntryField;
-    private JCheckBox checkBox;
+    private final JLabel weatherInfo;
+    private final JTextField weatherEntryField;
+    private ImageIcon image;
+
 
     public GUIController(){
-        weatherInfo = new JTextArea(5, 20);
-        weatherEntryField = new JTextField(10);
-        checkBox = new JCheckBox("Show Celsius");
+        weatherInfo = new JLabel();
+        weatherEntryField = new JTextField(6);
+        image = new ImageIcon();
+
         setUpGUI();
     }
 
@@ -39,6 +43,14 @@ public class GUIController implements ActionListener implements ItemListner
         JLabel weatherLabel = new JLabel("Enter Zip Code: ");
         JButton submit = new JButton("Submit");
         JButton clear = new JButton("Clear");
+        JCheckBox checkBox = new JCheckBox("Show Celsius");
+
+        ImageIcon image = new ImageIcon("src/PlaceHolder.jpg");
+        Image imageData = image.getImage(); // transform it
+        Image scaledImage = imageData.getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
+        image = new ImageIcon(scaledImage);  // transform it back
+        JLabel pictureLabel = new JLabel(image);
+
 
         weatherListPanel.add(weatherLabel);
         weatherListPanel.add(weatherEntryField);
@@ -49,11 +61,12 @@ public class GUIController implements ActionListener implements ItemListner
 
 
         JPanel weatherInfoPanel = new JPanel();
-//        weatherInfo.setText("");
+        weatherInfo.setText("Hello");
         weatherInfo.setFont(new Font("Helvetica", Font.PLAIN, 16));
-        weatherInfo.setWrapStyleWord(true);
-        weatherInfo.setLineWrap(true);
+//        weatherInfo.setWrapStyleWord(true);
+//        weatherInfo.setLineWrap(true);
         weatherInfoPanel.add(weatherInfo);
+        weatherInfoPanel.add(pictureLabel);
 
 
         checkBox.addItemListener(this);
@@ -87,8 +100,20 @@ public class GUIController implements ActionListener implements ItemListner
         else if (text.equals("Clear"))
         {
             weatherEntryField.setText("");
-            setUpGUI();
+
         }
-        if()
+    }
+
+    @Override
+    public void itemStateChanged(ItemEvent e) {
+        int checkBoxOnOrOff = e.getStateChange();
+        if(checkBoxOnOrOff == 1) // when it's clicked; inserted code to change temp unit to C.
+        {
+            System.out.println("Why did you check me ?");
+        }
+        else  // inserted code for F; default temp unit
+        {
+            System.out.println("Come now, CLICK ME!");
+        }
     }
 }
