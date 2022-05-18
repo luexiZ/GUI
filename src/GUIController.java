@@ -1,12 +1,6 @@
 
 import javax.imageio.ImageIO;
-import javax.swing.JFrame;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.JTextArea;
-import javax.swing.JButton;
+import javax.swing.*;
 import java.awt.BorderLayout;
 import java.awt.Image;
 import java.awt.Color;
@@ -18,14 +12,16 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class GUIController implements ActionListener
+public class GUIController implements ActionListener implements ItemListner
 {
     private JTextArea weatherInfo;
     private JTextField weatherEntryField;
+    private JCheckBox checkBox;
 
     public GUIController(){
         weatherInfo = new JTextArea(5, 20);
         weatherEntryField = new JTextField(10);
+        checkBox = new JCheckBox("Show Celsius");
         setUpGUI();
     }
 
@@ -43,20 +39,24 @@ public class GUIController implements ActionListener
         JLabel weatherLabel = new JLabel("Enter Zip Code: ");
         JButton submit = new JButton("Submit");
         JButton clear = new JButton("Clear");
+
         weatherListPanel.add(weatherLabel);
         weatherListPanel.add(weatherEntryField);
         weatherListPanel.add(submit);
         weatherListPanel.add(clear);
+        weatherListPanel.add(checkBox);
 
 
 
         JPanel weatherInfoPanel = new JPanel();
-        weatherInfo.setText("processing ...");
+//        weatherInfo.setText("");
         weatherInfo.setFont(new Font("Helvetica", Font.PLAIN, 16));
         weatherInfo.setWrapStyleWord(true);
         weatherInfo.setLineWrap(true);
         weatherInfoPanel.add(weatherInfo);
 
+
+        checkBox.addItemListener(this);
         submit.addActionListener(this);
         clear.addActionListener(this);
 
@@ -78,7 +78,7 @@ public class GUIController implements ActionListener
             // obtain the numerical value that the user typed into the text field
             // (getTest() returns a string) and convert it to an int
             String zipCode = weatherEntryField.getText();
-            int movieNumInt = Integer.parseInt(zipCode);
+            int zipCodeNum = Integer.parseInt(zipCode);
 
         }
 
@@ -89,5 +89,6 @@ public class GUIController implements ActionListener
             weatherEntryField.setText("");
             setUpGUI();
         }
+        if()
     }
 }
