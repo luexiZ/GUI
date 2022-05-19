@@ -10,21 +10,25 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class GUIController implements ActionListener, ItemListener
 {
     private final JLabel weatherInfo;
     private final JTextField weatherEntryField;
-    private ImageIcon image;
+    private JLabel pictureLabel;
+    private JPanel weatherInfoPanel;
 
 
     public GUIController(){
         weatherInfo = new JLabel();
         weatherEntryField = new JTextField(6);
-        image = new ImageIcon();
+        pictureLabel = new JLabel();
+        weatherInfoPanel = new JPanel();
 
         setUpGUI();
     }
@@ -32,26 +36,19 @@ public class GUIController implements ActionListener, ItemListener
     public void setUpGUI(){
         JFrame frame = new JFrame("Weather App");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+        //Topic
         JPanel logoWelcomePanel = new JPanel();
         JLabel welcomeLabel = new JLabel("   Current Weather   ");
         welcomeLabel.setFont(new Font("Helvetica", Font.BOLD, 20));
         welcomeLabel.setForeground(Color.blue);
         logoWelcomePanel.add(welcomeLabel);
-
+        // Instruction Panel
         JPanel weatherListPanel = new JPanel();
         JLabel weatherLabel = new JLabel("Enter Zip Code: ");
         JButton submit = new JButton("Submit");
         JButton clear = new JButton("Clear");
         JCheckBox checkBox = new JCheckBox("Show Celsius");
-
-        ImageIcon image = new ImageIcon("src/PlaceHolder.jpg");
-        Image imageData = image.getImage(); // transform it
-        Image scaledImage = imageData.getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
-        image = new ImageIcon(scaledImage);  // transform it back
-        JLabel pictureLabel = new JLabel(image);
-
-
+        // incorporate attributes
         weatherListPanel.add(weatherLabel);
         weatherListPanel.add(weatherEntryField);
         weatherListPanel.add(submit);
@@ -60,11 +57,19 @@ public class GUIController implements ActionListener, ItemListener
 
 
 
-        JPanel weatherInfoPanel = new JPanel();
+        // Have result be printed in Label format; in weatherInfoPanel
         weatherInfo.setText("Hello");
         weatherInfo.setFont(new Font("Helvetica", Font.PLAIN, 16));
+        // Invisible PlaceHolder image in the panel
+        ImageIcon image = new ImageIcon("src/PlaceHolder.jpg");
+        Image imageData = image.getImage(); // transform it
+        Image scaledImage = imageData.getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
+        image = new ImageIcon(scaledImage);  // transform it back
+        pictureLabel = new JLabel(image);
 //        weatherInfo.setWrapStyleWord(true);
 //        weatherInfo.setLineWrap(true);
+
+        // incorporate attributes
         weatherInfoPanel.add(weatherInfo);
         weatherInfoPanel.add(pictureLabel);
 
@@ -81,26 +86,19 @@ public class GUIController implements ActionListener, ItemListener
 
     }
 
-
     public void actionPerformed(ActionEvent e) {
-        JButton button = (JButton) (e.getSource());  // cast source to JButton
+        JButton button = (JButton) (e.getSource());
         String text = button.getText();
 
         if (text.equals("Submit"))
         {
-            // obtain the numerical value that the user typed into the text field
-            // (getTest() returns a string) and convert it to an int
             String zipCode = weatherEntryField.getText();
             int zipCodeNum = Integer.parseInt(zipCode);
-
+            // inserted code requiring zipCode response
         }
-
-        // if user clicked "Reset" button, set the text field back to empty string
-        // and load the Now Playing list again
         else if (text.equals("Clear"))
         {
             weatherEntryField.setText("");
-
         }
     }
 
@@ -109,11 +107,34 @@ public class GUIController implements ActionListener, ItemListener
         int checkBoxOnOrOff = e.getStateChange();
         if(checkBoxOnOrOff == 1) // when it's clicked; inserted code to change temp unit to C.
         {
-            System.out.println("Why did you check me ?");
+            weatherInfo.setText("Yes");
+            BufferedImage bufImg = null;
+            Image tmp = null;
+            try {
+                bufImg = ImageIO.read(new File("src/tmdblogo.jpg"));
+                tmp = bufImg.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            assert false;
+            pictureLabel.setIcon(new ImageIcon(tmp));
         }
         else  // inserted code for F; default temp unit
         {
-            System.out.println("Come now, CLICK ME!");
+            weatherInfo.setText("No");
+            BufferedImage bufImg = null;
+            Image tmp = null;
+            try {
+                bufImg = ImageIO.read(new File("src/PlaceHolder.jpg"));
+                tmp = bufImg.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            assert false;
+            pictureLabel.setIcon(new ImageIcon(tmp));
         }
+
     }
 }
