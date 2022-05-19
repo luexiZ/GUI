@@ -95,19 +95,6 @@ public class GUIController implements ActionListener, ItemListener
             String zipCode = weatherEntryField.getText();
             int zipCodeNum = Integer.parseInt(zipCode);
             // inserted code requiring zipCode response
-        }
-        else if (text.equals("Clear"))
-        {
-            weatherEntryField.setText("");
-        }
-    }
-
-    @Override
-    public void itemStateChanged(ItemEvent e) {
-        int checkBoxOnOrOff = e.getStateChange();
-        if(checkBoxOnOrOff == 1) // when it's clicked; inserted code to change temp unit to C.
-        {
-            weatherInfo.setText("Yes");
             BufferedImage bufImg = null;
             Image tmp = null;
             try {
@@ -120,20 +107,24 @@ public class GUIController implements ActionListener, ItemListener
             assert false;
             pictureLabel.setIcon(new ImageIcon(tmp));
         }
+        else if (text.equals("Clear"))
+        {
+            weatherEntryField.setText("");
+
+        }
+    }
+
+    @Override
+    public void itemStateChanged(ItemEvent e) {
+        int checkBoxOnOrOff = e.getStateChange();
+        if(checkBoxOnOrOff == 1) // when it's clicked; inserted code to change temp unit to C.
+        {
+
+        }
         else  // inserted code for F; default temp unit
         {
             weatherInfo.setText("No");
-            BufferedImage bufImg = null;
-            Image tmp = null;
-            try {
-                bufImg = ImageIO.read(new File("src/PlaceHolder.jpg"));
-                tmp = bufImg.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
 
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-            assert false;
-            pictureLabel.setIcon(new ImageIcon(tmp));
         }
 
     }
